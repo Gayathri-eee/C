@@ -1,50 +1,46 @@
-//creating single linked list
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef struct node s;
 
 struct node{
     int data;
-    struct node* address;
+    s *addr;
 };
-int main(){
 
-    s* head = malloc(sizeof(s));//1000 add
-    head -> data = 1;
-    head -> address=NULL;
-
-    s* current = malloc(sizeof(s)); //2000 add
-    current -> data = 2;
-    current -> address=NULL;
-    head -> address = current; //head 2000 current destroy
-    printf("node 1:\n data = %d\n address = %d\n",head->data,head->address);
-    printf("node 2:\n data = %d\n",current->data);
-
-    current = malloc(sizeof(s));// current 3000
-    current->data=3;
-    current->address=NULL;
-    head -> address->address=current; // *2000 -> *0 = 3000
-    printf(" address = %d\n",head->address->address);
-    printf("node 3:\n data = %d\n address = nil\n",current->data);
-    printf("\n");
-    print_list(head);
-    return 0;
+s* create_node(int d){
+    s *temp = malloc(sizeof(s));
+    temp -> data = d;
+    temp -> addr = NULL;
+    return temp;
 }
 
-print_list(s *head)
-{
-    if(head==NULL){
-        printf("list is empty");
-        exit(0);
-    }
+void show(struct node *head){
     s *ptr = head;
-    printf("each nodes data and address: \n");
-    while(ptr!=NULL)
-    {
-       printf("\n");
-       printf(" %d ",ptr->data);
-       printf(" %d ",ptr->address);
-       ptr=ptr->address;//for moving to next node
+    printf("The sll data's and addresses are:\n");
+    while(ptr!=NULL){
+        printf("%d - %d\n",ptr->data,ptr->addr);
+        ptr = ptr->addr;
     }
-    printf("\n");
+}
+
+int main(){
+    s *head =NULL;
+    s *ptr =NULL;
+    int n, val;
+    printf("enter no.of nodes:");
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        printf("enter data for node %d:",i+1);
+        scanf("%d",&val);
+        s *new_node = create_node(val);
+        if(i==0){
+           head = new_node;
+            ptr = new_node;
+        } else {
+            ptr->addr = new_node;
+            ptr = new_node;
+        }
+    }
+    show(head);
 }
